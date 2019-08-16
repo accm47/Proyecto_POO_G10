@@ -40,9 +40,6 @@ public class VentanaGaleria {
 
     public void ventana() {
         //Logo Carpeta Album
-        ImageView imgLogo = new ImageView(new Image("/Imagen/blum_logo.png"));
-        imgLogo.setFitHeight(50);
-        imgLogo.setFitWidth(50);
         root = new BorderPane();
         //Top
         HBox paneLogo = new HBox();
@@ -58,13 +55,11 @@ public class VentanaGaleria {
         TilePane paneAlbum = new TilePane();
         paneAlbum.setStyle("-fx-border-color: #000000; -fx-border-width: 2px; -fx-background-color: #FFFFFF");
         paneAlbum.setPadding(new Insets(15, 15, 15, 15));
-        
+
         paneAlbum.setVgap(30);
         paneAlbum.setHgap(30);
-        
-       
-//paneAlbum.setAlignment(Pos.CENTER);
 
+//paneAlbum.setAlignment(Pos.CENTER);
         root.setCenter(paneAlbum);
         root.setStyle("-fx-border-color: #000000; -fx-border-width: 4px; -fx-background-color: #5F9EA0");
         //Right
@@ -74,10 +69,14 @@ public class VentanaGaleria {
         paneBtn.getChildren().addAll(btnCrearAlbum, btnCrearFoto);
         paneBtn.setSpacing(10);
         root.setRight(paneBtn);
-        
+
         btnCrearAlbum.setOnAction((event) -> {
+            ImageView imgLogo = new ImageView(new Image("/Imagen/blum_logo.png"));
+            imgLogo.setFitHeight(50);
+            imgLogo.setFitWidth(50);
+
             Button album = new Button("", imgLogo);
-            
+
             album.setGraphic(imgLogo);
 
             album.setStyle("-fx-background-size: 800 900; -fx-background-radius: 0 0 18 18; -fx-border-radius: 0 0 18 18;-fx-border-color: #000000; -fx-border-width: 2px; -fx-background-color: #BDB76B;");
