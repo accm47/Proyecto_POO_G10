@@ -5,7 +5,7 @@
  */
 package Gallery;
 
-import Ventanas.VentanaUsuario;
+import Gui.VentanaUsuario;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
