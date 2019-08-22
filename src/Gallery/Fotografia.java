@@ -6,6 +6,7 @@
 package Gallery;
 
 import java.util.ArrayList;
+import javafx.scene.image.Image;
 
 /**
  *
@@ -17,15 +18,19 @@ public class Fotografia {
     protected Lugar lugar;
     protected Album album;
     protected ArrayList<Persona> personas;
+    protected Image imagen;
     private Reacciones reacciones;
     private KeyWord keyword;
 
-    public Fotografia(String descrip, String fecha, Lugar lugar, Album album, ArrayList<Persona> personas) {
+    public Fotografia(String descrip, String fecha, Lugar lugar, Album album, ArrayList<Persona> personas, Image imagen, Reacciones reacciones, KeyWord keyword) {
         this.descrip = descrip;
         this.fecha = fecha;
         this.lugar = lugar;
         this.album = album;
         this.personas = personas;
+        this.imagen = imagen;
+        this.reacciones = reacciones;
+        this.keyword = keyword;
     }
 
     public String getDescrip() {
@@ -67,6 +72,32 @@ public class Fotografia {
     public void setPersonas(ArrayList<Persona> personas) {
         this.personas = personas;
     }
+
+    public Image getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(Image imagen) {
+        this.imagen = imagen;
+    }
+
+    public Reacciones getReacciones() {
+        return reacciones;
+    }
+
+    public void setReacciones(Reacciones reacciones) {
+        this.reacciones = reacciones;
+    }
+
+    public KeyWord getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(KeyWord keyword) {
+        this.keyword = keyword;
+    }
+    
+    
     
     public void newFoto(){
         //subira una nueva foto
