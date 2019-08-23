@@ -25,6 +25,10 @@ import javafx.stage.Stage;
  * @author BRYAN
  */
 public class VentanaFotografia {
+
+    public VentanaFotografia() {
+        
+    }
     
     public void start(Stage stage) throws Exception {
         

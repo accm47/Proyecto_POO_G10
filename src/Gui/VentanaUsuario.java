@@ -23,12 +23,17 @@ import javafx.stage.Stage;
 public class VentanaUsuario {
 
     private VBox root;
-    Stage stgGaleria; 
+    private Stage stgGaleria; 
 
     public VentanaUsuario() {
         ventana();
     }
 
+    public Stage getStgGaleria() {
+        return stgGaleria;
+    }
+
+    
     public VBox getRoot() {
         return root;
     }
@@ -63,7 +68,7 @@ public class VentanaUsuario {
             stgGaleria = new Stage();
             Scene sceneGaleria = new Scene(new VentanaGaleria().getRoot(),1900,700);
             stgGaleria.setTitle("Galeria Blum!");
-            stgGaleria.setFullScreen(true);
+            //stgGaleria.setFullScreen(true);
             stgGaleria.setScene(sceneGaleria);
             stgGaleria.show();
         });
@@ -71,7 +76,7 @@ public class VentanaUsuario {
         root.getChildren().addAll(paneImg, HboxUser, HboxPassword, btnIniciar);
         root.setAlignment(Pos.CENTER);
         root.setSpacing(20);
-        root.setStyle("-fx-border-color: #000000; -fx-border-width: 2px; -fx-background-color: #5F9EA0");
+        root.setStyle("-fx-border-color: #000000; -fx-border-width: 2px; -fx-background-color: #1f7690");
 
     }
 

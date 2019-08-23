@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author BRYAN
+ * @author BRYAN y Kevin Blum
  */
 public class Principal extends Application{
 
@@ -27,7 +27,6 @@ public class Principal extends Application{
     @Override
     public void start(Stage primaryStage)  {
         Scene sceneUser = new Scene(new VentanaUsuario().getRoot() , 300, 250);
-        
         primaryStage.setTitle("Galeria Blum!");
         primaryStage.setScene(sceneUser);
         primaryStage.show();
