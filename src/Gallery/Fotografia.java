@@ -22,14 +22,14 @@ public class Fotografia {
     private Reacciones reacciones;
     private KeyWord keyword;
 
-    public Fotografia(String descrip, String fecha, Lugar lugar, Album album, ArrayList<Persona> personas, Image imagen, Reacciones reacciones, KeyWord keyword) {
+    public Fotografia(String descrip, String fecha, Lugar lugar, Album album, ArrayList<Persona> personas, Image imagen, KeyWord keyword) {
         this.descrip = descrip;
         this.fecha = fecha;
         this.lugar = lugar;
         this.album = album;
         this.personas = personas;
         this.imagen = imagen;
-        this.reacciones = reacciones;
+        this.reacciones = null;
         this.keyword = keyword;
     }
 

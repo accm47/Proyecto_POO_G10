@@ -133,6 +133,9 @@ public class VentanaGaleria {
 
 //hbFoto.getChildren().add(imgView);
                 }
+                
+                
+                
             } catch (MalformedURLException ex) {
                 System.out.println(ex);
             }

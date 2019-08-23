@@ -5,8 +5,13 @@
  */
 package Gui;
 
+import Gallery.Album;
 import Gallery.Fotografia;
+import Gallery.Lugar;
+import Gallery.Persona;
 import Gallery.Reacciones;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,10 +20,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 /**
  *
@@ -80,4 +87,117 @@ public class VentanaFotografia {
         Scene sc = new Scene(vb);
         return sc;
     }
+    
+    public void nuevaFoto(){
+        Stage stage = new Stage();
+        VBox vb = new VBox();
+        vb.setAlignment(Pos.CENTER);
+        vb.setSpacing(10);
+        //vb.getChildren().add(image);
+        
+        TextField descrip = new TextField("Descripcion");
+        descrip.setPrefSize(350, 100);
+        HBox descripLine = new HBox();
+        descripLine.setAlignment(Pos.CENTER);
+        descripLine.setSpacing(20);
+        Label descripLabel = new Label("Descripcion:");
+        descripLabel.setStyle("-fx-font-size: 11pt; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 0.7;");
+        descripLine.getChildren().addAll(descripLabel, descrip);
+        vb.getChildren().add(descripLine);
+        
+        TextField year = new TextField("Año");
+        year.setPrefSize(100, 25);
+        HBox yearLine = new HBox();
+        yearLine.setAlignment(Pos.CENTER);
+        yearLine.setSpacing(20);
+        Label yearLabel = new Label("Año:");
+        yearLabel.setStyle("-fx-font-size: 11pt; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 0.7;");
+        yearLine.getChildren().addAll(yearLabel, year);
+        vb.getChildren().add(yearLine);
+        
+        ObservableList<Lugar> lugares = FXCollections.observableArrayList(Lugar.lugares);
+        ComboBox<Lugar> placeList = new ComboBox<>(lugares);
+        placeList.setConverter(new StringConverter<Lugar>() {
+
+            @Override
+            public String toString(Lugar lugar) {
+                return lugar.getNombre();
+            }
+
+            @Override
+            public Lugar fromString(String string) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        
+        HBox placeLine = new HBox();
+        placeLine.setAlignment(Pos.CENTER);
+        placeLine.setSpacing(20);
+        Button newPlace = new Button("Nuevo Lugar");
+        //eventH newPlace
+        Label placeLabel = new Label("Lugar:");
+        placeLabel.setStyle("-fx-font-size: 11pt; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 0.7;");
+        placeLine.getChildren().addAll(placeLabel, placeList, newPlace);
+        vb.getChildren().add(placeLine);
+        
+        ObservableList<Album> albumes = FXCollections.observableArrayList(Album.albumes);
+        ComboBox<Album> albumList = new ComboBox<>(albumes);
+        albumList.setConverter(new StringConverter<Album>(){
+
+            @Override
+            public String toString(Album album) {
+                return album.getNombre();
+            }
+
+            @Override
+            public Album fromString(String string) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        HBox albumLine = new HBox();
+        albumLine.setAlignment(Pos.CENTER);
+        albumLine.setSpacing(20);
+        Button newAlbum = new Button("Nuevo Album");
+        //eventH newAlbum
+        Label albumLabel = new Label("Album:");
+        albumLabel.setStyle("-fx-font-size: 11pt; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 0.7;");
+        albumLine.getChildren().addAll(albumLabel, albumList, newAlbum);
+        vb.getChildren().add(albumLine);
+        
+        ComboBox<Persona> personList = new ComboBox<>();
+        //agregar personas a la lista
+        HBox personLine = new HBox();
+        personLine.setAlignment(Pos.CENTER);
+        personLine.setSpacing(20);
+        Button newPerson = new Button("Nueva Persona");
+        Button select = new Button("Select");
+        //eventH newPerson y select
+        Label personLabel = new Label("Personas: ");
+        personLabel.setStyle("-fx-font-size: 11pt; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 0.7;");
+        personLine.getChildren().addAll(personLabel, personList, select, newPerson);
+        vb.getChildren().add(personLine);
+        Label personasLabel = new Label();
+        personasLabel.setPrefSize(300, 75);
+        personasLabel.setStyle("-fx-background-color:white; -fx-padding:3px;");
+        vb.getChildren().add(personasLabel);
+        
+        TextField keyword = new TextField("Hashtag");
+        HBox keywordLine = new HBox();
+        keywordLine.setAlignment(Pos.CENTER);
+        keywordLine.setSpacing(20);
+        Label keywordLabel = new Label("Hashtag");
+        keywordLabel.setStyle("-fx-font-size: 11pt; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 0.7;");
+        keywordLine.getChildren().addAll(keywordLabel, keyword);
+        vb.getChildren().add(keywordLine);
+        
+        Button addPhoto = new Button("Agregar Foto");
+        vb.getChildren().add(addPhoto);
+        
+        vb.setStyle("-fx-border-color: #000000; -fx-border-width: 2px; -fx-background-color: #23395B");
+        
+        Scene scene = new Scene(vb,500, 500);
+        stage.setScene(scene);
+        stage.show();
+    }
+    
 }

@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @author BRYAN
  */
 public class Album  {
-    ArrayList<Album> albumes = new ArrayList<Album>();
+    public static ArrayList<Album> albumes = new ArrayList<Album>();
     
     protected String nombre;
     protected String fecha;
