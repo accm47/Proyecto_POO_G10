@@ -11,6 +11,7 @@ import Gallery.KeyWord;
 import Gallery.Lugar;
 import Gallery.Persona;
 import Gallery.Reacciones;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
@@ -170,6 +171,7 @@ public class VentanaFotografia {
         vb.getChildren().add(albumLine);
         
         ComboBox<Persona> personList = new ComboBox<>();
+        ArrayList<Persona> etiquetados = new ArrayList<Persona>();
         personList.setConverter(new StringConverter<Persona>(){
 
             @Override
@@ -189,6 +191,7 @@ public class VentanaFotografia {
         personasLabel.setStyle("-fx-background-color:white; -fx-padding:3px;");
         personList.setOnAction(event -> {
             personasLabel.getText().replaceAll(personasLabel.getText(), (personasLabel.getText()) + " " + personList.getValue());
+            etiquetados.add(personList.getValue());
         });
         HBox personLine = new HBox();
         personLine.setAlignment(Pos.CENTER);
@@ -216,7 +219,7 @@ public class VentanaFotografia {
         vb.getChildren().add(addPhoto);
         addPhoto.setOnAction(event -> {
             Album album = albumList.getValue();
-            album.getFotos().add(new Fotografia(descrip.getText(), year.getText(), placeList.getValue(), album, null, image, new KeyWord(keyword.getText())));
+            album.getFotos().add(new Fotografia(descrip.getText(), year.getText(), placeList.getValue(), album, etiquetados, image, new KeyWord(keyword.getText())));
         });
         vb.setStyle("-fx-border-color: #000000; -fx-border-width: 2px; -fx-background-color: #23395B");
         
