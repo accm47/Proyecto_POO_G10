@@ -5,6 +5,7 @@
  */
 package Gallery;
 
+import Gui.VentanaPersona;
 import java.util.ArrayList;
 
 /**
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  * @author BRYAN
  */
 public class Persona {
-    public ArrayList<Persona> personas = new ArrayList<Persona>();
+    public static ArrayList<Persona> personas = new ArrayList<Persona>();
     
     protected String nombre;
 
@@ -28,9 +29,8 @@ public class Persona {
         this.nombre = nombre;
     }
     
-    public void newPersona(String nombre){
-        //getNombre de la ventana para ingregar una nueva persona
-        personas.add(new Persona(nombre));
+    public static void newPersona(){
+        VentanaPersona.nuevaPersona();
     }
     
     

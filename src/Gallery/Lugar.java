@@ -5,6 +5,7 @@
  */
 package Gallery;
 
+import Gui.VentanaLugar;
 import java.util.ArrayList;
 
 /**
@@ -46,10 +47,8 @@ public class Lugar {
         this.descrip = descrip;
     }
     
-    public void newLugar(String nombre, String descrip){
-        //getNombre y getDescrip de la ventana de añadir nuevo lugar
-        lugares.add(new Lugar(nombre, descrip));
-        
+    public static void newLugar(){
+        VentanaLugar.nuevoLugar();
     }
     
 }

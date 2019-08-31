@@ -21,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.ComboBox;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -88,12 +89,13 @@ public class VentanaFotografia {
         return sc;
     }
     
-    public void nuevaFoto(){
+    public void nuevaFoto(Image image){
         Stage stage = new Stage();
         VBox vb = new VBox();
         vb.setAlignment(Pos.CENTER);
         vb.setSpacing(10);
-        //vb.getChildren().add(image);
+        
+        vb.getChildren().add(new ImageView(image));
         
         TextField descrip = new TextField("Descripcion");
         descrip.setPrefSize(350, 100);
@@ -134,7 +136,9 @@ public class VentanaFotografia {
         placeLine.setAlignment(Pos.CENTER);
         placeLine.setSpacing(20);
         Button newPlace = new Button("Nuevo Lugar");
-        //eventH newPlace
+        newPlace.setOnAction(event -> {
+            Lugar.newLugar();
+        });
         Label placeLabel = new Label("Lugar:");
         placeLabel.setStyle("-fx-font-size: 11pt; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 0.7;");
         placeLine.getChildren().addAll(placeLabel, placeList, newPlace);
@@ -165,20 +169,37 @@ public class VentanaFotografia {
         vb.getChildren().add(albumLine);
         
         ComboBox<Persona> personList = new ComboBox<>();
-        //agregar personas a la lista
+        personList.setConverter(new StringConverter<Persona>(){
+
+            @Override
+            public String toString(Persona persona) {
+                return persona.getNombre();
+            }
+
+            @Override
+            public Persona fromString(String string) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        
+        });
+        personList.getItems().addAll(Persona.personas);
+        Label personasLabel = new Label();
+        personasLabel.setPrefSize(300, 75);
+        personasLabel.setStyle("-fx-background-color:white; -fx-padding:3px;");
+        personList.setOnAction(event -> {
+            personasLabel.getText().replaceAll(personasLabel.getText(), (personasLabel.getText()) + " " + personList.getValue());
+        });
         HBox personLine = new HBox();
         personLine.setAlignment(Pos.CENTER);
         personLine.setSpacing(20);
         Button newPerson = new Button("Nueva Persona");
-        Button select = new Button("Select");
-        //eventH newPerson y select
+        newPerson.setOnAction(event -> {
+            Persona.newPersona();
+        });
         Label personLabel = new Label("Personas: ");
         personLabel.setStyle("-fx-font-size: 11pt; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white; -fx-opacity: 0.7;");
-        personLine.getChildren().addAll(personLabel, personList, select, newPerson);
+        personLine.getChildren().addAll(personLabel, personList, newPerson);
         vb.getChildren().add(personLine);
-        Label personasLabel = new Label();
-        personasLabel.setPrefSize(300, 75);
-        personasLabel.setStyle("-fx-background-color:white; -fx-padding:3px;");
         vb.getChildren().add(personasLabel);
         
         TextField keyword = new TextField("Hashtag");
@@ -192,7 +213,11 @@ public class VentanaFotografia {
         
         Button addPhoto = new Button("Agregar Foto");
         vb.getChildren().add(addPhoto);
-        
+        addPhoto.setOnAction(event -> {
+            Album album = albumList.getValue();
+            //Falta completar depende del el codigo de addFoto
+            album.addFoto();
+        });
         vb.setStyle("-fx-border-color: #000000; -fx-border-width: 2px; -fx-background-color: #23395B");
         
         Scene scene = new Scene(vb,500, 500);
