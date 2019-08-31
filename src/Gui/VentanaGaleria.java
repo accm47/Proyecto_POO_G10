@@ -5,9 +5,17 @@
  */
 package Gui;
 
+import Gallery.Album;
+import Gallery.Galeria;
+import Gallery.Principal;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -33,6 +41,9 @@ public class VentanaGaleria {
     private BorderPane root;
     private ArrayList<ImageView> listImageView = new ArrayList<>();
     private TilePane gallery;
+    TilePane paneAlbum;
+    String rutaGaleria = "C:\\Users\\kexbl\\OneDrive\\Imágenes";
+    Album albums;
 
     public VentanaGaleria() {
         ventana();
@@ -47,6 +58,51 @@ public class VentanaGaleria {
     }
 
     public void ventana() {
+
+        paneAlbum = new TilePane();
+        //Center
+        paneAlbum.setStyle("-fx-border-color: #000000; -fx-border-width: 1px; -fx-background-color: #161925");
+        paneAlbum.setPadding(new Insets(15, 15, 15, 15));
+
+        paneAlbum.setVgap(30);
+        paneAlbum.setHgap(30);
+
+        Galeria galeria = null;
+
+        for (Galeria g : Principal.galeriaUsuarios) {
+            if (Principal.usuarioSesion.getUserName().equals(g.getUsuario().getUserName())) {
+                galeria = g;
+            }
+
+        }
+        for (Album g1 : galeria.getAlbumes()) {
+            VBox panealbum1 = new VBox();
+            panealbum1.setSpacing(10);
+            panealbum1.setAlignment(Pos.CENTER);
+            ImageView imgLogo = new ImageView(new Image("/Imagen/blum_logo.png"));
+            Label lblnombreAlbum = new Label(g1.getNombre());
+            lblnombreAlbum.setStyle("-fx-font-size: 11pt; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white;");
+           
+            imgLogo.setFitHeight(50);
+            imgLogo.setFitWidth(50);
+            
+            Button album = new Button("", imgLogo);
+            panealbum1.getChildren().addAll(album, lblnombreAlbum);
+            album.setGraphic(imgLogo);
+            
+            
+            album.setOnAction((event) -> {
+                new VentanaAlbum().ventana(g1);
+ 
+            });
+
+            album.setStyle("-fx-background-size: 800 900; -fx-background-radius: 0 0 18 18; -fx-border-radius: 0 0 18 18;-fx-border-color: #CBF7ED; -fx-border-width: 2px; -fx-background-color: #8EA8C3;");
+            //album.setStyle("-fx-border-color: #000000; -fx-border-width: 2px; -fx-background-color: #BDB76B;");
+            //album.setLayoutY(10);
+
+            paneAlbum.getChildren().add(panealbum1);
+
+        }
         //Logo Carpeta Album
         root = new BorderPane();
         //Top
@@ -59,13 +115,6 @@ public class VentanaGaleria {
         paneLogo.setStyle("-fx-border-color: #c9d0d6; -fx-border-width: 3px;-fx-background-color: #c9d0d6");
         paneLogo.setAlignment(Pos.CENTER);
         root.setTop(paneLogo);
-        //Center
-        TilePane paneAlbum = new TilePane();
-        paneAlbum.setStyle("-fx-border-color: #000000; -fx-border-width: 1px; -fx-background-color: #161925");
-        paneAlbum.setPadding(new Insets(15, 15, 15, 15));
-
-        paneAlbum.setVgap(30);
-        paneAlbum.setHgap(30);
 
 //paneAlbum.setAlignment(Pos.CENTER);
         root.setCenter(paneAlbum);
@@ -82,10 +131,11 @@ public class VentanaGaleria {
         root.setRight(paneBtn);
 
         btnCrearAlbum.setOnAction((event) -> {
+            //new VentanaAlbum(album).miniVentanaAlbum();
             ImageView imgLogo = new ImageView(new Image("/Imagen/blum_logo.png"));
             imgLogo.setFitHeight(50);
             imgLogo.setFitWidth(50);
-
+            VBox panealbum = new VBox();
             Button album = new Button("", imgLogo);
 
             album.setGraphic(imgLogo);
@@ -96,7 +146,7 @@ public class VentanaGaleria {
             paneAlbum.getChildren().add(album);
 
             album.setOnAction((e) -> {
-                new VentanaAlbum().ventana();
+                new VentanaAlbum().ventana(albums);
 
             });
         });

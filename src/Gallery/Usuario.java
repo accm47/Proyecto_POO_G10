@@ -24,7 +24,7 @@ import javafx.scene.layout.VBox;
  * @author Kevin Blum
  */
 public class Usuario {
-    ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+    public static ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
     
     private String userName;
     private String password;
@@ -38,6 +38,12 @@ public class Usuario {
         this.galeria = galeria;
     }
 
+    public Usuario(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+    }
+
+    
     public Usuario() {
         }
 
@@ -71,7 +77,7 @@ public class Usuario {
         return "Usuario{" + "userName=" + userName + ", password=" + password + ", galeria=" + galeria + '}';
     }
 
-    public void serializarDatos(){
+    public static void serializarDatos(){
         try {
             FileOutputStream fs = new FileOutputStream("usuarios.ser");
             ObjectOutputStream os = new ObjectOutputStream(fs);
@@ -87,10 +93,11 @@ public class Usuario {
         }
     }
     
-    public void deserializarDatos(){
+    public static void deserializarDatos(){
         try{
             FileInputStream fs = new FileInputStream("usuraios.ser");
             ObjectInputStream os = new ObjectInputStream(fs);
+           
             Usuario u1 = (Usuario) os.readObject();
             Usuario u2 = (Usuario) os.readObject();
             Usuario u3 = (Usuario) os.readObject();

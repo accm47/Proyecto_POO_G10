@@ -13,12 +13,12 @@ import java.util.ArrayList;
 public class Album  {
     ArrayList<Album> albumes = new ArrayList<Album>();
     
-    protected String nombre;
-    protected String fecha;
-    protected String descrip;
-    protected ArrayList<Fotografia> fotos;
-    protected ArrayList<Persona> personas;
-    protected ArrayList<Lugar> lugares;
+    private String nombre;
+    private String fecha;
+    private String descrip;
+    private ArrayList<Fotografia> fotos;
+    private ArrayList<Persona> personas;
+    private ArrayList<Lugar> lugares;
 
     public Album(String nombre, String fecha, String descrip, ArrayList<Fotografia> fotos, ArrayList<Persona> personas, ArrayList<Lugar> lugares) {
         this.nombre = nombre;
@@ -28,6 +28,12 @@ public class Album  {
         this.personas = personas;
         this.lugares = lugares;
     }
+
+    public Album(String nombre, String descrip) {
+        this.nombre = nombre;
+        this.descrip = descrip;
+    }
+    
 
     public String getNombre() {
         return nombre;
@@ -76,6 +82,7 @@ public class Album  {
     public void setLugares(ArrayList<Lugar> lugares) {
         this.lugares = lugares;
     }
+    
     
     public void slideshow(){
         //presenta fotos en slideshow

@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author BRYAN
  */
 public class Lugar {
-    public ArrayList<Lugar> lugares = new ArrayList<Lugar>();
+    private  ArrayList<Lugar> lugares = new ArrayList<Lugar>();
     
     protected String nombre;
     protected String descrip;

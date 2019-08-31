@@ -13,24 +13,26 @@ import javafx.scene.image.Image;
  * @author BRYAN y Kevin Blum
  */
 public class Fotografia {
-    protected String descrip;
-    protected String fecha;
-    protected Lugar lugar;
-    protected Album album;
-    protected ArrayList<Persona> personas;
-    protected Image imagen;
+    private String descrip;
+    private String fecha;
+    private String lugar;
+    private Album album;
+    private ArrayList<Persona> personas;
+    private Image imagen;
     private Reacciones reacciones;
-    private KeyWord keyword;
+    private ArrayList<KeyWord> keywords;
+     private KeyWord keyword;
+    private Persona persona;
+    
 
-    public Fotografia(String descrip, String fecha, Lugar lugar, Album album, ArrayList<Persona> personas, Image imagen, Reacciones reacciones, KeyWord keyword) {
+    public Fotografia(String descrip, String fecha, String lugar, Album album, Persona persona,KeyWord key) {
         this.descrip = descrip;
         this.fecha = fecha;
         this.lugar = lugar;
         this.album = album;
-        this.personas = personas;
-        this.imagen = imagen;
-        this.reacciones = reacciones;
-        this.keyword = keyword;
+        this.persona = persona;
+        keyword= key;
+        
     }
 
     public String getDescrip() {
@@ -49,11 +51,11 @@ public class Fotografia {
         this.fecha = fecha;
     }
 
-    public Lugar getLugar() {
+    public String getLugar() {
         return lugar;
     }
 
-    public void setLugar(Lugar lugar) {
+    public void setLugar(String lugar) {
         this.lugar = lugar;
     }
 

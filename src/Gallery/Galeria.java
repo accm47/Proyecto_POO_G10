@@ -12,12 +12,23 @@ import java.util.ArrayList;
  * @author Kevin Blum
  */
 public class Galeria {
-    private String idGaleria;
-    private ArrayList<Album> albumes;
 
-    public Galeria(String idGaleria, ArrayList<Album> albumes) {
+    private String idGaleria;
+    private ArrayList<Album> albumes = new ArrayList();
+    private Usuario usuario;
+    private ArrayList<Persona> personas = new ArrayList();
+            
+    public Galeria(String idGaleria, Usuario usuario) {
         this.idGaleria = idGaleria;
-        this.albumes = albumes;
+        this.usuario = usuario;
+    }
+
+    public ArrayList<Persona> getPersonas() {
+        return personas;
+    }
+
+    public void setPersonas(ArrayList<Persona> personas) {
+        this.personas = personas;
     }
 
     public String getIdGaleria() {
@@ -32,23 +43,24 @@ public class Galeria {
         return albumes;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
     public void setAlbumes(ArrayList<Album> albumes) {
         this.albumes = albumes;
     }
-    
-    
-    
-    public void CrearAlbum(){
+
+    public void CrearAlbum() {
     }
-    
-    public void mostrarAlbum(){
+
+    public void mostrarAlbum() {
     }
-    
-    
-    public void modificarPersona(){
+
+    public void modificarPersona() {
     }
-    
-    public void eliminarPersona(){
+
+    public void eliminarPersona() {
     }
-    
+
 }
