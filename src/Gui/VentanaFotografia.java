@@ -7,6 +7,7 @@ package Gui;
 
 import Gallery.Album;
 import Gallery.Fotografia;
+import Gallery.KeyWord;
 import Gallery.Lugar;
 import Gallery.Persona;
 import Gallery.Reacciones;
@@ -215,8 +216,7 @@ public class VentanaFotografia {
         vb.getChildren().add(addPhoto);
         addPhoto.setOnAction(event -> {
             Album album = albumList.getValue();
-            //Falta completar depende del el codigo de addFoto
-            album.addFoto();
+            album.getFotos().add(new Fotografia(descrip.getText(), year.getText(), placeList.getValue(), album, null, image, new KeyWord(keyword.getText())));
         });
         vb.setStyle("-fx-border-color: #000000; -fx-border-width: 2px; -fx-background-color: #23395B");
         

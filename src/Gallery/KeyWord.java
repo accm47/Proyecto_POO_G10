@@ -13,4 +13,10 @@ import java.util.ArrayList;
  */
 public class KeyWord {
     private ArrayList<KeyWord> keywords;
+    protected String keyword;
+
+    public KeyWord(String keyword) {
+        this.keyword = keyword;
+    }
+    
 }
