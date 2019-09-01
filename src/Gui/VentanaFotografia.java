@@ -182,12 +182,12 @@ public class VentanaFotografia {
             @Override
             public String toString(Persona persona) {
                 return persona.getNombre();
-            }
+}
 
             @Override
             public Persona fromString(String string) {
                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
+}
 
         });
         personList.getItems().addAll(Persona.personas);
