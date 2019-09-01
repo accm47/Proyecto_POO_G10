@@ -5,20 +5,23 @@
  */
 package Gallery;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Kevin Blum
  */
-public class KeyWord {
+public class KeyWord implements Serializable {
     private ArrayList<KeyWord> keywords;
     private String nombreKey;
 
-    public KeyWord(String nombreKey) {
-        this.nombreKey = nombreKey;
+    
+    
+    protected String keyword;
+
+    public KeyWord(String keyword) {
+        this.keyword = keyword;
     }
-    
-    
     
 }

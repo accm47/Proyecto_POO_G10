@@ -5,10 +5,12 @@
  */
 package Gallery;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Kevin Blum
  */
-public enum Reacciones {
+public enum Reacciones implements Serializable {
     LIKE, LOVE, HAHA, WOW, SAD, ANGRY;
 }

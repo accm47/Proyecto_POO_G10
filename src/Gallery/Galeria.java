@@ -5,22 +5,28 @@
  */
 package Gallery;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Kevin Blum
  */
-public class Galeria {
+public class Galeria implements Serializable {
 
     private String idGaleria;
-    private ArrayList<Album> albumes = new ArrayList();
+    private ArrayList<Album> albumes;
     private Usuario usuario;
     private ArrayList<Persona> personas = new ArrayList();
-            
+
     public Galeria(String idGaleria, Usuario usuario) {
         this.idGaleria = idGaleria;
         this.usuario = usuario;
+        this.albumes = new ArrayList<>();
     }
 
     public ArrayList<Persona> getPersonas() {
@@ -61,6 +67,33 @@ public class Galeria {
     }
 
     public void eliminarPersona() {
+    }
+
+    public static void serializar(ArrayList<Galeria> g) {
+        try {
+            FileOutputStream fout = new FileOutputStream("galeria.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fout);
+                out.writeObject(g);
+
+            
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+
+    }
+
+    public static ArrayList<Galeria> deserializar() {
+        ArrayList<Galeria> galerias = new ArrayList();
+        try {
+            FileInputStream fin = new FileInputStream("galeria.ser");
+            ObjectInputStream in = new ObjectInputStream(fin);
+            galerias = (ArrayList<Galeria>) in.readObject();
+            
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return galerias;
     }
 
 }

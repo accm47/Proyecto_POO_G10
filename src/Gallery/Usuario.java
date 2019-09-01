@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -23,7 +24,7 @@ import javafx.scene.layout.VBox;
  *
  * @author Kevin Blum
  */
-public class Usuario {
+public class Usuario implements Serializable {
     public static ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
     
     private String userName;

@@ -5,14 +5,20 @@
  */
 package Gallery;
 
+import Gui.VentanaPersona;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author BRYAN
  */
-public class Persona {
-    public ArrayList<Persona> personas = new ArrayList<Persona>();
+public class Persona implements Serializable {
+    public static ArrayList<Persona> personas = new ArrayList<Persona>();
     
     protected String nombre;
 
@@ -28,10 +34,36 @@ public class Persona {
         this.nombre = nombre;
     }
     
-    public void newPersona(String nombre){
-        //getNombre de la ventana para ingregar una nueva persona
-        personas.add(new Persona(nombre));
+   
+    @Override
+    public String toString() {
+        return   nombre ;
     }
-    
+    public static void serializar(ArrayList<Persona> g) {
+        try {
+            FileOutputStream fout = new FileOutputStream("persona.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fout);
+                out.writeObject(g);
+
+            
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+
+    }
+
+    public static ArrayList<Persona> deserializar() {
+        ArrayList<Persona> personas = new ArrayList();
+        try {
+            FileInputStream fin = new FileInputStream("persona.ser");
+            ObjectInputStream in = new ObjectInputStream(fin);
+            personas = (ArrayList<Persona>) in.readObject();
+            
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return personas;
+    }
     
 }

@@ -5,21 +5,27 @@
  */
 package Gallery;
 
+import Gui.VentanaLugar;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author BRYAN
  */
-public class Lugar {
-    private  ArrayList<Lugar> lugares = new ArrayList<Lugar>();
+public class Lugar implements Serializable{
+    public static ArrayList<Lugar> lugares = new ArrayList<Lugar>();
     
     protected String nombre;
     protected String descrip;
 
-    public Lugar(String nombre, String descrip) {
+    public Lugar(String nombre) {
         this.nombre = nombre;
-        this.descrip = descrip;
+       
     }
 
     public ArrayList<Lugar> getLugares() {
@@ -45,11 +51,31 @@ public class Lugar {
     public void setDescrip(String descrip) {
         this.descrip = descrip;
     }
-    
-    public void newLugar(String nombre, String descrip){
-        //getNombre y getDescrip de la ventana de añadir nuevo lugar
-        lugares.add(new Lugar(nombre, descrip));
-        
+    public static void serializar(ArrayList<Lugar> l) {
+        try {
+            FileOutputStream fout = new FileOutputStream("lugar.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fout);
+                out.writeObject(l);
+
+            
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+
+    }
+
+    public static ArrayList<Lugar> deserializar() {
+        ArrayList<Lugar> lugares = new ArrayList();
+        try {
+            FileInputStream fin = new FileInputStream("lugar.ser");
+            ObjectInputStream in = new ObjectInputStream(fin);
+            lugares = (ArrayList<Lugar>) in.readObject();
+            
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return lugares;
     }
     
 }

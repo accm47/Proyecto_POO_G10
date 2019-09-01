@@ -7,8 +7,11 @@ package Gui;
 
 import Gallery.Album;
 import Gallery.Fotografia;
+import Gallery.Galeria;
 import Gallery.KeyWord;
+import Gallery.Lugar;
 import Gallery.Persona;
+import Gallery.Principal;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -22,11 +25,13 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -58,13 +63,14 @@ public class VentanaAlbum {
     private HBox buttons;
     private ScrollPane scrollPane;
     private TilePane gallery;
-    private ArrayList<ImageView> listImageView = new ArrayList<>();
+    public ArrayList<ImageView> listImageView = new ArrayList<>();
     private VBox mainContainer;
     private Stage stgAlbum;
     Album album;
     String rutaGaleria = "C:\\Users\\kexbl\\OneDrive\\Imágenes";
     byte[] bArray;
     File file;
+    ImageView imgView;
 
     public VentanaAlbum() {
     }
@@ -102,6 +108,7 @@ public class VentanaAlbum {
         mainContainer.getChildren().add(totalLabel);
 
         buttons = createButtons();
+
         buttons.setStyle("-fx-border-color: #000000; -fx-border-width: 1px; -fx-background-color: #406E8E; ");
         mainContainer.getChildren().add(buttons);
 
@@ -123,25 +130,29 @@ public class VentanaAlbum {
         stgAlbum.setTitle("Albúm de photos");
         stgAlbum.show();
 
-        slideShow.setOnAction((ActionEvent e) -> {
-        });
-
+        Button eliminar = new Button("Eliminar");
+      
         addPhoto.setOnAction((event) -> {
             ventanaDescripion(album);
         });
         mainContainer.setStyle("-fx-border-color: #000000; -fx-border-width: 1px; -fx-background-color: #23395B");
 
+       
         try {
-            Files.walk(Paths.get(rutaGaleria + "\\" + album.getNombre())).forEach(ruta -> {
+            Files.walk(Paths.get(rutaGaleria + "\\" + Principal.usuarioSesion.getUserName() + "\\" + album.getNombre())).forEach(ruta -> {
                 if (Files.isRegularFile(ruta)) {
-                    Image image = new Image("file:" + ruta);
-                    ImageView imagev = new ImageView(image);
-                    imagev.setFitHeight(100);
-                    imagev.setFitWidth(100);
-                    listImageView.add(imagev);
-                    totalLabel.setText(listImageView.size() + " fotos");
-                    gallery.getChildren().add(imagev);
-
+                    int lastIndexOf = ruta.toString().lastIndexOf("\\");
+                    
+                    
+                        
+                        Image image = new Image("file:" + ruta);
+                        ImageView imagev = new ImageView(image);
+                        imagev.setFitHeight(100);
+                        imagev.setFitWidth(100);
+                        listImageView.add(imagev);
+                        totalLabel.setText(listImageView.size() + " fotos");
+                        gallery.getChildren().add(imagev);
+                    
                 }
             });
 
@@ -149,26 +160,78 @@ public class VentanaAlbum {
             Logger.getLogger(VentanaGaleria.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        slideShow.setOnAction((event) -> {
+            Stage stage2 = new Stage();
+            VBox paneims = new VBox();
+            HBox panetop = new HBox();
+            Label lblSlide = new Label("SlideShow");
+            lblSlide.setStyle("-fx-border-color: #000000; -fx-border-width: 1px;  -fx-font-size: 40pt; -fx-font-family: Segoe UI Semibold; -fx-text-fill: white;");
+            Button btnplay = new Button("Play");
+            Button btnstop = new Button("Stop");
+            panetop.getChildren().addAll(lblSlide, btnplay, btnstop);
+            paneims.setAlignment(Pos.CENTER);
+            paneims.setStyle("-fx-border-color: #000000; -fx-border-width: 2px; -fx-background-color: #23395B");
+            paneims.getChildren().add(panetop);
+            ImageView im = new ImageView();
+            Slide s = new Slide(listImageView, paneims);
+            Scene scene1 = new Scene(paneims, 500, 500);
+            stage2.setScene(scene1);
+            stage2.setFullScreen(true);
+            stage2.show();
+            stgAlbum.close();
+            s.start();
+            btnplay.setOnAction((o) -> {
+                s.resume();
+            });
+            btnstop.setOnAction((p) -> {
+                s.suspend();
+            });
+        });
+    }
+
+    public boolean filtro(String persona, String nombre) {
+        boolean v = false;
+        if (persona != null || !persona.isEmpty()) {
+            for (Fotografia f : album.getFotos()) {
+                if (f.getNombreArchivo().equalsIgnoreCase(nombre)) {
+                    for (Persona p : f.getPersonas()) {
+                        if (p.getNombre().equalsIgnoreCase(persona)) {
+                            v = true;
+                        }
+                    }
+
+                }
+            }
+        } else {
+            v = true;
+        }
+        return v;
     }
 
     public void ventanaDescripion(Album album) {
         Stage stgDescripcion = new Stage();
-
+        //Imagen
         VBox paned = new VBox();
         //Titulo
         Label lblTitulo = new Label("Ingrese información de la Foto");
         //Descripción
         HBox HbDescripcion = new HBox();
-        Label lblDescripcion = new Label("Ingrese Descripcion: ");
+        Label lblDescripcion = new Label("Descripcion: ");
         TextField txtDescripcion = new TextField();
         HbDescripcion.getChildren().addAll(lblDescripcion, txtDescripcion);
         //Lugar
-        Label lblLugar = new Label("Ingrese Lugar: ");
-        TextField txtLugar = new TextField();
+        Label lblLugar = new Label("Lugar: ");
+        //TextField txtLugar = new TextField();
         HBox HbLugar = new HBox();
-        HbLugar.getChildren().addAll(lblLugar, txtLugar);
+        ComboBox comboLugar = new ComboBox();
+        for (Lugar l : Principal.lugares) {
+            comboLugar.getItems().add(l.getNombre());
+
+        }
+
+        HbLugar.getChildren().addAll(lblLugar, comboLugar);
         //KeyWord
-        Label lblKeyword = new Label("Ingrese KeyWord: ");
+        Label lblKeyword = new Label("KeyWord: ");
         TextField txtKeyword = new TextField();
         HBox HbKeyword = new HBox();
         HbKeyword.getChildren().addAll(lblKeyword, txtKeyword);
@@ -181,10 +244,27 @@ public class VentanaAlbum {
         HBox HbFecha = new HBox();
         HbFecha.getChildren().addAll(lblFecha, fecha1);
         //Persona
-        Label lblPersona = new Label("Persona o Personas(separar por ,) : ");
+        Label lblPersona = new Label("Persona(s) ");
         TextField txtPersona = new TextField();
+
+        ComboBox comboPersona = new ComboBox();
+        for (Persona p : Principal.personas) {
+            comboPersona.getItems().add(p);
+
+        }
+        Button btnPersona = new Button("Etiquetar Personas");
+        btnPersona.setOnAction((event) -> {
+            if (txtPersona.getText().isEmpty()) {
+                txtPersona.setText(String.valueOf(comboPersona.getValue()));
+            } else {
+                txtPersona.setText(txtPersona.getText() + "," + String.valueOf(comboPersona.getValue()));
+            }
+        });
+//        comboPersona.setOnMouseClicked((event) -> {
+//           txtPersona.setText(String.valueOf(comboPersona.getValue()));
+//        });
         HBox HPersona = new HBox();
-        HPersona.getChildren().addAll(lblPersona, txtPersona);
+        HPersona.getChildren().addAll(lblPersona, txtPersona, comboPersona, btnPersona);
 
         //Album
         Label lblAlbum = new Label(album.getNombre());
@@ -195,7 +275,7 @@ public class VentanaAlbum {
         paned.getChildren().addAll(lblAlbum, HbDescripcion, HbLugar, HbFecha, HPersona, HbKeyword, btnAceptar, btnfoto);
         paned.setSpacing(10);
 
-        Scene scenefoto = new Scene(paned, 500, 300);
+        Scene scenefoto = new Scene(paned, 700, 500);
         stgDescripcion.setScene(scenefoto);
         stgDescripcion.show();
 
@@ -217,13 +297,35 @@ public class VentanaAlbum {
                     Image imgLoad = new Image(photoURL);
 
                     //Pass image to ImageView
-                    ImageView imgView = new ImageView(imgLoad);
+                    imgView = new ImageView(imgLoad);
 
                     imgView.setFitHeight(100);
                     imgView.setFitWidth(100);
                     listImageView.add(imgView);
-                    gallery.getChildren().add(imgView);
+                    imgView.setOnMouseClicked((event) -> {
+                        Stage st = new Stage();
+                        VBox paneMover = new VBox();
+                        HBox panem = new HBox();
+                        Label lblmover = new Label("Seleccione album a mover");
+                        ComboBox comboAlbum = new ComboBox();
+                        Button btnMover = new Button("Mover");
+                        panem.getChildren().addAll(lblmover, comboAlbum, btnMover);
+                        paneMover.getChildren().add(panem);
+                        Scene sc = new Scene(paneMover, 500, 500);
+                        st.setScene(sc);
+                        st.show();
+                        for (Album a : Principal.usuarioSesion.getGaleria().getAlbumes()) {
+                            comboAlbum.getItems().add(a.getNombre());
+                        }
+
+                        btnMover.setOnAction((a) -> {
+                            gallery.getChildren().remove(imgView);
+
+                        });
+
+                    });
                     bArray = readFileToByteArray(file);
+                    paned.getChildren().add(imgView);
 
                 }
             } catch (MalformedURLException ex) {
@@ -233,9 +335,36 @@ public class VentanaAlbum {
         });
 
         btnAceptar.setOnAction((event) -> {
-            Fotografia foto = new Fotografia(txtDescripcion.getText(), String.valueOf(fecha1.getValue()), txtLugar.getText(), album, new Persona(txtPersona.getText()), new KeyWord(txtKeyword.getText()));
+            String pe = txtPersona.getText();
+            String[] split = pe.split(",");
+            ArrayList<Persona> p = new ArrayList<>();
+
+            for (int i = 0; i < split.length; i++) {
+
+                p.add(new Persona(split[i]));
+
+            }
+            String ke = txtKeyword.getText();
+            String[] split1 = ke.split(",");
+            ArrayList<KeyWord> k = new ArrayList<>();
+
+            for (int i = 0; i < split1.length; i++) {
+
+                k.add(new KeyWord(split1[i]));
+
+            }
+
+            Lugar l = new Lugar(String.valueOf(comboLugar.getValue()));
+            Fotografia foto = new Fotografia(file.getName(), txtDescripcion.getText(), String.valueOf(fecha1.getValue()), l, album);
+            foto.setPersonas(p);
+            foto.setKeywords(k);
+
+            album.getFotos().add(foto);
+            Galeria.serializar(Principal.galeriaUsuarios);
+            gallery.getChildren().add(imgView);
+
             try {
-                FileOutputStream fout = new FileOutputStream(rutaGaleria + "\\" + album.getNombre() + "\\"+file.getName());
+                FileOutputStream fout = new FileOutputStream(rutaGaleria + "\\" + Principal.usuarioSesion.getUserName() + "\\" + album.getNombre() + "\\" + file.getName());
                 try {
                     fout.write(bArray);
                 } catch (IOException ex) {
@@ -247,6 +376,7 @@ public class VentanaAlbum {
             stgDescripcion.close();
 
         });
+
     }
 
     public void changeScene(ArrayList<ImageView> listIV) {
@@ -272,6 +402,7 @@ public class VentanaAlbum {
         tb.getChildren().add(backGallery);
         tb.getChildren().add(addPhoto);
         tb.getChildren().add(slideShow);
+
         return tb;
     }
 
@@ -350,29 +481,6 @@ public class VentanaAlbum {
             });
             container.getChildren().addAll(ph);
         }
-    }
-
-    public void miniVentanaAlbum() {
-        VBox root = new VBox();
-        //Nombre
-        HBox paneNombre = new HBox();
-        Label lblnombreAlbum = new Label("Ingrese Nombre Album: ");
-        TextField txtNombreAlbum = new TextField();
-        paneNombre.getChildren().addAll(lblnombreAlbum, txtNombreAlbum);
-        //Descripcion
-        HBox paneDescrpicion = new HBox();
-        Label lblDescripcionAlbum = new Label("Ingrese Descripción Album: ");
-        TextField txtDescripcionAlbum = new TextField();
-        paneDescrpicion.getChildren().addAll(lblDescripcionAlbum, txtDescripcionAlbum);
-        //Boton
-        Button btnAceptar = new Button();
-        root.getChildren().addAll(paneNombre, paneDescrpicion, btnAceptar);
-
-        btnAceptar.setOnAction((event) -> {
-            Album album = new Album(txtNombreAlbum.getText(), txtDescripcionAlbum.getText());
-
-        });
-
     }
 
     /*private Pane createImageView(ImageView iv) {   #Agregar marco o detalles a la foto en miniatura
@@ -467,6 +575,51 @@ public class VentanaAlbum {
 
     public void setRutaGaleria(String rutaGaleria) {
         this.rutaGaleria = rutaGaleria;
+    }
+
+}
+
+class Slide extends Thread {
+
+    ArrayList<ImageView> listI = new ArrayList();
+    Pane pane;
+
+    Slide(ArrayList<ImageView> listI, Pane pane) {
+        this.listI = listI;
+        this.pane = pane;
+
+    }
+
+    public void run() {
+
+        for (ImageView i : listI) {
+            i.setFitHeight(600);
+            i.setFitWidth(1900);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Slide.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    pane.getChildren().add(i);
+                }
+
+            });
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Slide.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    pane.getChildren().remove(i);
+                }
+            });
+        }
     }
 
 }

@@ -5,14 +5,24 @@
  */
 package Gallery;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
- * @author BRYAN
+ * @author BRYAN y Kevin Blum
  */
-public class Album  {
-    ArrayList<Album> albumes = new ArrayList<Album>();
-    
+public class Album implements Serializable {
+
+    public static ArrayList<Album> albumes = new ArrayList<Album>();
+
     private String nombre;
     private String fecha;
     private String descrip;
@@ -32,8 +42,8 @@ public class Album  {
     public Album(String nombre, String descrip) {
         this.nombre = nombre;
         this.descrip = descrip;
+        this.fotos = new ArrayList();
     }
-    
 
     public String getNombre() {
         return nombre;
@@ -82,31 +92,57 @@ public class Album  {
     public void setLugares(ArrayList<Lugar> lugares) {
         this.lugares = lugares;
     }
-    
-    
-    public void slideshow(){
+
+    public void slideshow() {
         //presenta fotos en slideshow
     }
-    
-    public void moverFoto(){
+
+    public void moverFoto() {
         //cambia una foto de un album a otro
     }
-    
+
     public void newAlbum(String nombre, String fecha, String descrip, ArrayList<Fotografia> fotos, ArrayList<Persona> personas, ArrayList<Lugar> lugares) {
         //obtine los datos de las ventanas con el get
         albumes.add(new Album(nombre, fecha, descrip, fotos, personas, lugares));
     }
-    
-    public void addFoto(){
+
+    public void addFoto() {
         //añade una foto al album abierto
     }
-    
-    public void mostrarFotos(){
+
+    public void mostrarFotos() {
         //muestra las fotos del album seleccionado
     }
-    
-    public void mostrarAlbumes(){
+
+    public void mostrarAlbumes() {
         //muestra todos los albumes
+    }
+
+    public void serializar(Album album) {
+        try {
+            FileOutputStream fout = new FileOutputStream("album.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fout);
+            out.writeObject(album);
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+
+    }
+
+    public ArrayList<Album> deserializar(Album album) {
+        ArrayList<Album> albums = new ArrayList();
+        try {
+            FileInputStream fin = new FileInputStream("album.ser");
+            ObjectInputStream in = new ObjectInputStream(fin);
+            Album a = (Album)in.readObject();
+            albums.add(a);
+                    
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return albums;
     }
 
 }

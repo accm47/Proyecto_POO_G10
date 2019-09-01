@@ -5,6 +5,7 @@
  */
 package Gallery;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
 
@@ -12,27 +13,68 @@ import javafx.scene.image.Image;
  *
  * @author BRYAN y Kevin Blum
  */
-public class Fotografia {
+public class Fotografia implements Serializable{
+    private String nombreArchivo;
     private String descrip;
     private String fecha;
     private String lugar;
+    private Lugar lugars;
+
     private Album album;
     private ArrayList<Persona> personas;
     private Image imagen;
     private Reacciones reacciones;
     private ArrayList<KeyWord> keywords;
-     private KeyWord keyword;
-    private Persona persona;
-    
+   
 
-    public Fotografia(String descrip, String fecha, String lugar, Album album, Persona persona,KeyWord key) {
+    public Fotografia(String descrip, String fecha, String lugar, Album album, ArrayList<Persona> personas, Image imagen, Reacciones reacciones, ArrayList<KeyWord> keywords, KeyWord keyword, Persona persona) {
         this.descrip = descrip;
         this.fecha = fecha;
         this.lugar = lugar;
         this.album = album;
-        this.persona = persona;
-        keyword= key;
-        
+        this.imagen = imagen;
+        this.reacciones = reacciones;
+        this.personas = personas;
+        this.imagen = imagen;
+        this.reacciones = null;
+    
+    }
+
+    public ArrayList<KeyWord> getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(ArrayList<KeyWord> keywords) {
+        this.keywords = keywords;
+    }
+
+    public String getNombreArchivo() {
+        return nombreArchivo;
+    }
+
+    public void setNombreArchivo(String nombreArchivo) {
+        this.nombreArchivo = nombreArchivo;
+    }
+    
+
+    public Fotografia(String nombre,String descrip, String fecha, Lugar lugar, Album album) {
+        this.nombreArchivo= nombre;
+        this.descrip= descrip;
+        this.fecha=fecha;
+        this.lugars = lugar;
+        this.album=album;
+        this.personas= new ArrayList<Persona>();
+        this.keywords= new ArrayList<KeyWord>();
+    }
+
+    public Fotografia(String descrip, String fecha, Lugar lugar, Album album, ArrayList<Persona> personas, Image imagen, KeyWord keyword) {
+        this.descrip = descrip;
+        this.fecha = fecha;
+        this.lugars = lugar;
+        this.album = album;
+        this.personas = personas;
+        this.imagen = imagen;
+        this.reacciones = null;
     }
 
     public String getDescrip() {
@@ -91,25 +133,13 @@ public class Fotografia {
         this.reacciones = reacciones;
     }
 
-    public KeyWord getKeyword() {
-        return keyword;
-    }
 
-    public void setKeyword(KeyWord keyword) {
-        this.keyword = keyword;
-    }
-    
-    
-    
-    public void newFoto(){
+    public void newFoto() {
         //subira una nueva foto
     }
 
-    public void ventanaFoto(){
-    
-    
-    
-    
+    public void ventanaFoto() {
+
     }
-    
+
 }
